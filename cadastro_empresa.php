@@ -93,34 +93,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Conexão com o banco de dados
             $conn = new PDO("mysql:host=$host;dbname=$dbName", $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-            // Prepara a consulta SQL
-            $stmt = $conn->prepare('INSERT INTO empresas (nome, endereco, telefone, cnpj, email) VALUES (:nome, :endereco, :telefone, :cnpj, :email)');
-
-            // Executa a consulta
-            $stmt->bindValue(':nome', $nome);
-            $stmt->bindValue(':endereco', $endereco);
+    
+            // Verifica se já existe um registro com os mesmos valores de telefone, cnpj e email
+            $stmt = $conn->prepare('SELECT * FROM empresas WHERE telefone = :telefone OR cnpj = :cnpj OR email = :email');
             $stmt->bindValue(':telefone', $telefone);
             $stmt->bindValue(':cnpj', $cnpj);
             $stmt->bindValue(':email', $email);
-
-    if ($stmt->execute()) {
-        echo 'Loja cadastrada com sucesso!';
-    } else {
-        echo 'Erro ao executar a consulta SQL.';
-    }
-} catch (PDOException $e) {
-    echo 'Erro ao cadastrar a loja: ' . $e->getMessage();
-}
-    }
-}
+            $stmt->execute();
+    
+            if ($stmt->rowCount() > 0) {
+                $errors[] = 'Já existe uma loja cadastrada com algum dado que você informou.';
+            } else {
+                // Prepara a consulta SQL
+                $stmt = $conn->prepare('INSERT INTO empresas (nome, endereco, telefone, cnpj, email) VALUES (:nome, :endereco, :telefone, :cnpj, :email)');
+    
+                // Executa a consulta
+                $stmt->bindValue(':nome', $nome);
+                $stmt->bindValue(':endereco', $endereco);
+                $stmt->bindValue(':telefone', $telefone);
+                $stmt->bindValue(':cnpj', $cnpj);
+                $stmt->bindValue(':email', $email);
+    
+                if ($stmt->execute()) {
+                    echo 'Loja cadastrada com sucesso!';
+                } else {
+                    echo 'Erro ao executar a consulta SQL.';
+                }
+            }
+        } catch (PDOException $e) {
+            echo 'Erro ao cadastrar a loja: ' . $e->getMessage();
+        }}}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Cadastro de Loja</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
     <h1>Cadastro de Loja</h1>
 
@@ -140,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" id="endereco" name="endereco" required>
         <br>
         <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" name="telefone" maxlength = "11" required>
+        <input type="text" id="telefone" name="telefone" maxlength = "16" required>
         <br>
         <label for="cnpj">CNPJ:</label>
         <input type="text" id="cnpj" name="cnpj" required>
@@ -150,5 +161,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
         <input type="submit" value="Cadastrar">
     </form>
+    <script>
+        $(document).ready(function() {
+            $('#telefone').on('input', function() {
+                var telefone = $(this).val();
+                telefone = telefone.replace(/\D/g, '');
+                telefone = telefone.replace(/(\d{2})(\d{1})(\d{1,4})(\d{1,4})$/, '($1) $2 $3-$4');
+                $(this).val(telefone);
+            });
+        });
+    </script>
 </body>
 </html>
