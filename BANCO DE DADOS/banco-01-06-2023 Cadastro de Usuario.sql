@@ -17,11 +17,12 @@ CREATE TABLE produtos (
     categoria VARCHAR(255),
     preco DECIMAL(9, 2),
     quantidade_produto INT,
-    imagem VARCHAR(255),
+    imagem longblob,
+    path varchar(255),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
+ALTER TABLE produtos ADD COLUMN caminho_imagem VARCHAR(255);
 
 select * from usuarios;
-drop table usuarios;
+select * from produtos;
+drop table produtos;
