@@ -11,19 +11,40 @@
     
     if (empty($rowTabela)){
         echo "<script>
-        alert('Usuario e/ou senha invalidos!!!');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Usuário e/ou senha inválidos!!!',
+            confirmButtonText: 'OK',
+            onClose: function() {
+                history.back();
+            }
+        }).then(function() {
+            history.back();
+        });
         </script>";
-    }else{
-       
-    $sessao = $rowTabela[0];
-
-    if(!isset($_SESSION)) {
-    session_start();
-    }
-    $_SESSION['id_usuarios'] = $sessao['id_usuarios'];
-    $_SESSION['email'] = $sessao['email'];
-
-    header("Location: tabela.php");
-    }
+    }else {
+        $sessao = $rowTabela[0];
+    
+        if(!isset($_SESSION)) {
+            session_start();
+        }
+        $_SESSION['id_login'] = $sessao['id_login'];
+        $_SESSION['login'] = $sessao['login'];
+    
+        echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Bem-vindo!',
+            text: 'Login bem-sucedido! Bem-vindo, " . $_SESSION['login'] . "!',
+            confirmButtonText: 'OK',
+            onClose: function() {
+                window.location.href = 'index.php';
+            }
+        }).then(function() {
+            window.location.href = 'index.php';
+        });
+        </script>";
+        }
 
 ?>
