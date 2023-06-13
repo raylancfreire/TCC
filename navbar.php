@@ -35,7 +35,7 @@
               Menu
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="?page=cadprod"> Cadastrar Produto</a></li>
+              <li><a class="dropdown-item" href="?page=cadastroprodroduto"> Cadastrar Produto</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -59,11 +59,14 @@
       case "catalogo":
     include("catalogo.php");
       break;
-    case"cadprod":
+    case"cadastroproduto":
       include("cadastrar_produto.php");
     break;
     case"index":
         include("index.php");
+      break;
+      case"pedidos":
+        include("pedidos.php");
       break;
     default:
     }
