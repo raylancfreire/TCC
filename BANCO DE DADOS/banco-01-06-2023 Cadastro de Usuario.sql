@@ -21,7 +21,7 @@ CREATE TABLE produtos (
     path varchar(255),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-ALTER TABLE produtos ADD COLUMN caminho_imagem VARCHAR(255);
+
 
 select * from usuarios;
 select * from produtos;
