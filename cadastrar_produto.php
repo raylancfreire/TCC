@@ -1,44 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="stylesheet" href="cadastrar_produto.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>   
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group input[type="file"],
-        .form-group textarea {
-            width: 100%;
-            padding:5px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-        
-        .form-group textarea {
-            resize: vertical;
-        }
-        
-        .form-group button {
-            background-color: #4CAF50;
-            border: none;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body><br><br>
     <div class="container">
